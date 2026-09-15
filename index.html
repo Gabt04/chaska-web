@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es-PE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHASKA — Zapatillas peruanas, directo a tu puerta</title>
+<style>
+  :root{
+    --ink:#141C42;
+    --ink-2:#1E2A5E;
+    --coral:#F1553F;
+    --coral-dk:#D33F2B;
+    --gold:#F5B942;
+    --paper:#FBFAF7;
+    --paper-2:#F1EFEA;
+    --line:#DDD9D0;
+    --muted:#5B6178;
+    --ok:#1F7A5A;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{animation:none!important;transition:none!important}}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:Cambria,"Times New Roman",Georgia,serif;line-height:1.15;margin:0}
+  a{color:inherit}
+  button{font-family:inherit;font-size:1rem;cursor:pointer;border:none;background:none}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+
+  /* ---------- barra de anuncio ---------- */
+  .ticker{background:var(--ink);color:#EDEFF8;font-size:.86rem;text-align:center;padding:9px 16px}
+  .ticker strong{color:var(--gold);font-weight:600}
+
+  /* ---------- header ---------- */
+  header{position:sticky;top:0;z-index:40;background:rgba(251,250,247,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;gap:28px;height:68px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:Cambria,Georgia,serif;font-size:1.5rem;font-weight:700;letter-spacing:.03em;text-decoration:none}
+  .logo .star{width:30px;height:30px;border-radius:50%;background:var(--coral);color:#fff;display:grid;place-items:center;font-size:.95rem}
+  .nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;margin-left:auto;font-size:.95rem}
+  .nav ul a{text-decoration:none;padding:6px 2px;border-bottom:2px solid transparent}
+  .nav ul a:hover{border-bottom-color:var(--coral)}
+  .cart-btn{display:flex;align-items:center;gap:8px;background:var(--ink);color:#fff;padding:9px 16px;border-radius:999px;font-size:.92rem}
+  .cart-btn .count{background:var(--coral);min-width:22px;height:22px;border-radius:999px;display:grid;place-items:center;font-size:.78rem;font-weight:700}
+  .burger{display:none}
+  @media(max-width:860px){
+    .nav ul{display:none}
+    .nav{gap:14px;height:60px}
+    .cart-btn{margin-left:auto}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{background:var(--ink);color:#fff;padding:64px 0 72px;position:relative;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+  .hero h1{font-size:clamp(2.2rem,4.6vw,3.5rem);font-weight:700}
+  .hero p.lead{font-size:1.1rem;color:#C9D0EA;max-width:52ch;margin:18px 0 28px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 26px;border-radius:999px;font-weight:600;text-decoration:none;font-size:.98rem;transition:transform .12s ease,background .12s ease}
+  .btn-primary{background:var(--coral);color:#fff}
+  .btn-primary:hover{background:var(--coral-dk)}
+  .btn-ghost{border:1.5px solid #47538F;color:#fff}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+  .btn:active{transform:translateY(1px)}
+  .hero-facts{display:flex;gap:30px;margin-top:38px;flex-wrap:wrap}
+  .hero-facts div span{display:block}
+  .hero-facts .n{font-family:Cambria,Georgia,serif;font-size:1.45rem;font-weight:700;color:var(--gold)}
+  .hero-facts .l{font-size:.85rem;color:#A9B2D8}
+  .hero-art{display:grid;place-items:center}
+  .hero-art img{width:100%;max-width:470px;aspect-ratio:4/3;object-fit:cover;border-radius:18px;box-shadow:0 26px 46px rgba(0,0,0,.42)}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:28px}.hero-art{order:-1}}
+
+  /* ---------- secciones ---------- */
+  section{padding:66px 0}
+  .sec-head{margin-bottom:30px;max-width:62ch}
+  .sec-head h2{font-size:clamp(1.6rem,3vw,2.1rem)}
+  .sec-head p{color:var(--muted);margin:10px 0 0}
+
+  /* ---------- catálogo ---------- */
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+  .chip{border:1.5px solid var(--line);background:#fff;padding:8px 16px;border-radius:999px;font-size:.9rem;color:var(--muted)}
+  .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.grid{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+  .card .thumb{background:var(--paper-2);position:relative;aspect-ratio:4/3;overflow:hidden}
+  .card .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .tag{position:absolute;top:12px;left:12px;background:var(--gold);color:var(--ink);font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.02em}
+  .card-body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .card h3{font-size:1.14rem}
+  .card .desc{font-size:.9rem;color:var(--muted);margin:0}
+  .price{font-family:Cambria,Georgia,serif;font-size:1.4rem;font-weight:700}
+  .stock{font-size:.8rem;color:var(--ok);font-weight:600}
+  .stock.low{color:var(--coral-dk)}
+  .sizes{display:flex;flex-wrap:wrap;gap:6px}
+  .size{width:40px;height:34px;border:1.4px solid var(--line);background:#fff;border-radius:8px;font-size:.85rem;display:grid;place-items:center}
+  .size:hover:not(:disabled){border-color:var(--ink)}
+  .size[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:700}
+  .size:disabled{opacity:.32;cursor:not-allowed;text-decoration:line-through}
+  .card .add{margin-top:auto;background:var(--ink);color:#fff;padding:12px;border-radius:10px;font-weight:600}
+  .card .add:hover{background:var(--ink-2)}
+  .card .hint{font-size:.78rem;color:var(--coral-dk);min-height:1.1em;margin:0}
+  .sizelink{font-size:.82rem;color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;background:none;padding:0;text-align:left}
+
+  /* ---------- guía de tallas ---------- */
+  .band{background:var(--ink);color:#fff}
+  .band .sec-head p{color:#B7C0E2}
+  .sizer{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}
+  @media(max-width:820px){.sizer{grid-template-columns:1fr}}
+  .panel{background:#1C2551;border:1px solid #333F79;border-radius:var(--radius);padding:24px}
+  .panel label{display:block;font-size:.9rem;color:#C9D0EA;margin-bottom:8px}
+  .panel input[type=range]{width:100%;accent-color:var(--coral)}
+  .cm{font-family:Cambria,Georgia,serif;font-size:2.6rem;font-weight:700;color:var(--gold);line-height:1}
+  .result{margin-top:20px;background:var(--coral);border-radius:10px;padding:16px 18px}
+  .result .r-t{font-size:.82rem;color:#FFE0DA}
+  .result .r-n{font-family:Cambria,Georgia,serif;font-size:2.1rem;font-weight:700}
+  .result .r-d{font-size:.88rem;color:#FFE9E4;margin-top:4px}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  th,td{padding:9px 10px;text-align:left;border-bottom:1px solid #333F79}
+  th{color:var(--gold);font-size:.8rem;font-weight:700;letter-spacing:.02em}
+  tr.hit td{background:#28336B;font-weight:700}
+
+  /* ---------- envíos / pagos / cambios ---------- */
+  .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:880px){.trio{grid-template-columns:1fr}}
+  .info{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .info .ic{width:44px;height:44px;border-radius:50%;background:var(--coral);color:#fff;display:grid;place-items:center;font-size:1.1rem;margin-bottom:14px}
+  .info h3{font-size:1.1rem;margin-bottom:8px}
+  .info ul{margin:0;padding-left:18px;font-size:.93rem;color:var(--muted)}
+  .info li{margin-bottom:6px}
+  .pays{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .pay{border:1.4px solid var(--line);border-radius:8px;padding:6px 12px;font-size:.82rem;font-weight:600}
+
+  /* ---------- calculadora de envío ---------- */
+  .ship-calc{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+  .ship-calc select{flex:1;min-width:150px;padding:10px;border:1.4px solid var(--line);border-radius:8px;font-family:inherit;font-size:.9rem;background:#fff}
+  .ship-out{margin-top:12px;font-size:.9rem;background:var(--paper-2);border-radius:8px;padding:12px;min-height:44px}
+
+  /* ---------- FAQ ---------- */
+  .faq{max-width:780px}
+  details{background:#fff;border:1px solid var(--line);border-radius:10px;margin-bottom:10px;padding:0 18px}
+  summary{cursor:pointer;padding:15px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--coral);font-size:1.4rem;line-height:1}
+  details[open] summary::after{content:"–"}
+  details p{margin:0 0 16px;color:var(--muted);font-size:.94rem}
+
+  /* ---------- carrito ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(20,28,66,.55);z-index:50;display:none}
+  .overlay.open{display:block}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,100%);background:var(--paper);z-index:60;transform:translateX(102%);transition:transform .22s ease;display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.22)}
+  .drawer.open{transform:translateX(0)}
+  .drawer header{position:static;background:var(--ink);border:none;color:#fff;padding:20px 22px;display:flex;justify-content:space-between;align-items:center}
+  .drawer header h2{font-size:1.2rem}
+  .close{color:#fff;font-size:1.6rem;line-height:1;padding:0 4px}
+  .items{flex:1;overflow-y:auto;padding:18px 22px}
+  .item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .item .mini{width:64px;height:64px;background:var(--paper-2);border-radius:10px;overflow:hidden;flex-shrink:0}
+  .item .mini img{width:100%;height:100%;object-fit:cover;display:block}
+  .item .t{font-weight:600;font-size:.95rem}
+  .item .s{font-size:.82rem;color:var(--muted)}
+  .qty{display:flex;align-items:center;gap:6px;margin-top:6px}
+  .qty button{width:26px;height:26px;border:1.3px solid var(--line);border-radius:6px;background:#fff;line-height:1}
+  .item .p{margin-left:auto;text-align:right;font-weight:700;font-size:.95rem}
+  .rm{display:block;font-size:.78rem;color:var(--coral-dk);text-decoration:underline;margin-top:6px}
+  .empty{text-align:center;color:var(--muted);padding:50px 10px}
+  .summary{border-top:1px solid var(--line);padding:18px 22px;background:#fff}
+  .row{display:flex;justify-content:space-between;font-size:.93rem;margin-bottom:8px}
+  .row.total{font-family:Cambria,Georgia,serif;font-size:1.3rem;font-weight:700;margin:12px 0 4px}
+  .freebar{height:6px;background:var(--paper-2);border-radius:999px;overflow:hidden;margin:4px 0 8px}
+  .freebar i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s ease}
+  .checkout{width:100%;background:var(--coral);color:#fff;padding:14px;border-radius:10px;font-weight:700;margin-top:10px}
+  .checkout:hover{background:var(--coral-dk)}
+  .checkout:disabled{background:#C9C6BE;cursor:not-allowed}
+
+  /* ---------- modal checkout ---------- */
+  .modal{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(20,28,66,.6);overflow-y:auto}
+  .modal.open{display:flex}
+  .sheet{background:var(--paper);border-radius:16px;width:min(560px,100%);max-height:92vh;overflow-y:auto}
+  .sheet .sh{background:var(--ink);color:#fff;padding:20px 24px;border-radius:16px 16px 0 0;display:flex;justify-content:space-between;align-items:center}
+  .sheet .sb{padding:24px}
+  fieldset{border:none;padding:0;margin:0 0 20px}
+  legend{font-weight:700;font-size:1rem;margin-bottom:10px;padding:0}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:5px}
+  .field input,.field select{width:100%;padding:11px 12px;border:1.4px solid var(--line);border-radius:9px;font-family:inherit;font-size:.95rem;background:#fff}
+  .field input:invalid:not(:placeholder-shown){border-color:var(--coral)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .payopts{display:grid;gap:10px}
+  .payopt{display:flex;gap:12px;align-items:flex-start;border:1.6px solid var(--line);border-radius:10px;padding:13px 15px;cursor:pointer;background:#fff}
+  .payopt:has(input:checked){border-color:var(--coral);background:#FFF3F0}
+  .payopt input{margin-top:3px;accent-color:var(--coral)}
+  .payopt .pt{font-weight:600;font-size:.95rem}
+  .payopt .pd{font-size:.83rem;color:var(--muted)}
+  .totbox{background:var(--ink);color:#fff;border-radius:12px;padding:16px 18px;margin-bottom:18px}
+  .totbox .row{color:#C9D0EA;margin-bottom:6px}
+  .totbox .row.total{color:#fff;border-top:1px solid #333F79;padding-top:10px}
+  .err{color:var(--coral-dk);font-size:.85rem;min-height:1.2em;margin:0 0 10px}
+  .done{text-align:center;padding:16px 4px}
+  .done .tick{width:70px;height:70px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-size:2rem;margin:0 auto 16px}
+  .done h3{font-size:1.5rem;margin-bottom:10px}
+  .done p{color:var(--muted);font-size:.95rem}
+  .done .ref{font-family:Cambria,Georgia,serif;font-size:1.3rem;font-weight:700;background:var(--paper-2);border-radius:10px;padding:12px;margin:16px 0}
+
+  /* ---------- toast ---------- */
+  .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,120%);background:var(--ink);color:#fff;padding:13px 22px;border-radius:999px;font-size:.92rem;z-index:80;transition:transform .25s ease;box-shadow:0 10px 26px rgba(0,0,0,.25)}
+  .toast.show{transform:translate(-50%,0)}
+
+  /* ---------- whatsapp ---------- */
+  .wa{position:fixed;right:20px;bottom:20px;z-index:45;background:#25D366;color:#fff;border-radius:999px;padding:13px 20px;font-weight:600;font-size:.92rem;display:flex;gap:9px;align-items:center;box-shadow:0 8px 22px rgba(0,0,0,.2);text-decoration:none}
+  @media(max-width:600px){.wa{padding:13px;border-radius:50%}.wa span{display:none}}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--ink);color:#A9B2D8;padding:48px 0 30px;font-size:.9rem}
+  .fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:34px;margin-bottom:30px}
+  @media(max-width:760px){.fgrid{grid-template-columns:1fr}}
+  footer h4{color:#fff;font-size:.95rem;margin:0 0 10px;font-family:inherit}
+  footer ul{list-style:none;padding:0;margin:0}
+  footer li{margin-bottom:7px}
+  footer a{text-decoration:none}
+  footer a:hover{color:var(--gold)}
+  .fbot{border-top:1px solid #2C3768;padding-top:18px;font-size:.82rem;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<div class="ticker">Envío gratis en Lima desde <strong>S/ 250</strong> · Primer cambio de talla sin costo, hasta 15 días</div>
+
+<header>
+  <nav class="wrap nav">
+    <a class="logo" href="#top"><span class="star">★</span>CHASKA</a>
+    <ul>
+      <li><a href="#catalogo">Zapatillas</a></li>
+      <li><a href="#tallas">Encuentra tu talla</a></li>
+      <li><a href="#envios">Envíos y pagos</a></li>
+      <li><a href="#ayuda">Ayuda</a></li>
+    </ul>
+    <button class="cart-btn" id="openCart" aria-label="Abrir carrito de compras">
+      Carrito <span class="count" id="cartCount">0</span>
+    </button>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Pruébatelas en casa.<br>Si no te quedan, te las cambiamos.</h1>
+      <p class="lead">Zapatillas peruanas que llegan a tu puerta en 24 a 48 horas en Lima. Sin tiendas, sin colas y con el primer cambio de talla gratis, porque comprar calzado online no debería ser una apuesta.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#catalogo">Ver zapatillas</a>
+        <a class="btn btn-ghost" href="#tallas">Calcular mi talla</a>
+      </div>
+      <div class="hero-facts">
+        <div><span class="n">24–48 h</span><span class="l">Entrega en Lima</span></div>
+        <div><span class="n">35 a 44</span><span class="l">Tallas disponibles</span></div>
+        <div><span class="n">S/ 189–299</span><span class="l">Precio por par</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="https://images.pexels.com/photos/31451018/pexels-photo-31451018.jpeg?auto=compress&cs=tinysrgb&w=900"
+           alt="Tres pares de zapatillas CHASKA sobre piso de madera" loading="eager">
+    </div>
+  </div>
+</section>
+
+<!-- ============ CATÁLOGO ============ -->
+<section id="catalogo">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Nuestras zapatillas</h2>
+      <p>Seis modelos, stock real y talla disponible al momento. Elige tu talla antes de agregar al carrito: solo mostramos lo que tenemos en almacén hoy.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filtrar por categoría">
+      <button class="chip" data-filter="todas" aria-pressed="true">Todas</button>
+      <button class="chip" data-filter="urbana" aria-pressed="false">Urbanas</button>
+      <button class="chip" data-filter="deportiva" aria-pressed="false">Deportivas</button>
+      <button class="chip" data-filter="mujer" aria-pressed="false">Mujer</button>
+      <button class="chip" data-filter="hombre" aria-pressed="false">Hombre</button>
+    </div>
+    <div class="grid" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- ============ GUÍA DE TALLAS ============ -->
+<section id="tallas" class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Encuentra tu talla sin probártelas</h2>
+      <p>Mide tu pie descalzo desde el talón hasta el dedo más largo, en la tarde (el pie se hincha durante el día). Mueve la barra hasta tu medida y te decimos qué talla pedir.</p>
+    </div>
+    <div class="sizer">
+      <div class="panel">
+        <label for="cmRange">Largo de tu pie en centímetros</label>
+        <div class="cm"><span id="cmValue">25.0</span> cm</div>
+        <input type="range" id="cmRange" min="22" max="29" step="0.5" value="25" aria-describedby="sizeResult">
+        <div class="result" id="sizeResult" role="status" aria-live="polite">
+          <div class="r-t">Tu talla recomendada</div>
+          <div class="r-n" id="sizeNumber">Talla 39</div>
+          <div class="r-d" id="sizeNote">Si estás entre dos tallas o usas medias gruesas, pide la mayor.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <table>
+          <caption class="sr-only" style="position:absolute;left:-9999px">Equivalencia entre centímetros y talla peruana</caption>
+          <thead><tr><th scope="col">Largo del pie</th><th scope="col">Talla CHASKA</th><th scope="col">Equivale a US</th></tr></thead>
+          <tbody id="sizeTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ENVÍOS, PAGOS, CAMBIOS ============ -->
+<section id="envios">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Envíos, pagos y cambios</h2>
+      <p>Todo lo que necesitas saber antes de comprar, sin letra chica.</p>
+    </div>
+    <div class="trio">
+      <div class="info">
+        <div class="ic" aria-hidden="true">🚚</div>
+        <h3>Envíos a todo el Perú</h3>
+        <ul>
+          <li>Lima: llega en 24 a 48 horas.</li>
+          <li>Provincias: entre 3 y 5 días útiles.</li>
+          <li>Envío gratis en Lima desde S/ 250.</li>
+          <li>Te enviamos el código de rastreo por WhatsApp.</li>
+        </ul>
+        <div class="ship-calc">
+          <label for="destino" style="position:absolute;left:-9999px">Elige tu destino</label>
+          <select id="destino">
+            <option value="">¿A dónde enviamos?</option>
+            <option value="lima">Lima Metropolitana</option>
+            <option value="callao">Callao</option>
+            <option value="norte">Provincia — norte (Trujillo, Piura, Chiclayo)</option>
+            <option value="sur">Provincia — sur (Arequipa, Cusco, Tacna)</option>
+            <option value="selva">Provincia — selva (Iquitos, Pucallpa, Tarapoto)</option>
+          </select>
+        </div>
+        <div class="ship-out" id="shipOut" role="status" aria-live="polite">Elige tu destino y te decimos cuánto cuesta y cuándo llega.</div>
+      </div>
+
+      <div class="info">
+        <div class="ic" aria-hidden="true">💳</div>
+        <h3>Formas de pago</h3>
+        <ul>
+          <li>Yape o Plin: confirmas y despachamos el mismo día.</li>
+          <li>Tarjeta de débito o crédito con pago seguro.</li>
+          <li>Pago contra entrega solo en Lima Metropolitana.</li>
+          <li>Boleta o factura electrónica a tu correo.</li>
+        </ul>
+        <div class="pays">
+          <span class="pay">Yape</span><span class="pay">Plin</span>
+          <span class="pay">Visa</span><span class="pay">Mastercard</span><span class="pay">Contra entrega</span>
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="ic" aria-hidden="true">🔄</div>
+        <h3>Cambios y devoluciones</h3>
+        <ul>
+          <li>Primer cambio de talla gratis, hasta 15 días después de recibir.</li>
+          <li>Recogemos el par en tu casa y dejamos el nuevo.</li>
+          <li>Las zapatillas deben estar sin uso en calle y con su caja.</li>
+          <li>Si no tenemos tu talla, te devolvemos el 100%.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AYUDA ============ -->
+<section id="ayuda" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Preguntas frecuentes</h2>
+      <p>Si tu duda no está acá, escríbenos por WhatsApp y te respondemos de lunes a sábado, de 9 a. m. a 7 p. m.</p>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>¿Qué pasa si pido mi talla y no me queda?</summary>
+        <p>Nos escribes por WhatsApp dentro de los 15 días, coordinamos el recojo y te llevamos la talla correcta sin costo. Es un cambio gratis por compra, y solo pedimos que las zapatillas no se hayan usado en la calle y conserven su caja.</p>
+      </details>
+      <details>
+        <summary>¿Tienen tienda física donde probármelas?</summary>
+        <p>No, y por eso el precio es más bajo: vendemos solo por internet y te llevamos las zapatillas a tu casa. Para reemplazar la prueba en tienda tenemos la guía de tallas por centímetros y el cambio gratis.</p>
+      </details>
+      <details>
+        <summary>¿Cómo sé que mi pago es seguro?</summary>
+        <p>Los pagos con tarjeta se procesan en una pasarela certificada. CHASKA no guarda el número de tu tarjeta. Si prefieres, puedes pagar con Yape o Plin y enviarnos la constancia por WhatsApp.</p>
+      </details>
+      <details>
+        <summary>¿Puedo comprar y recibir en provincia?</summary>
+        <p>Sí. Enviamos a todo el país mediante agencias aliadas y la entrega toma entre 3 y 5 días útiles. El costo depende de la región y lo ves antes de pagar, en el resumen de tu pedido.</p>
+      </details>
+      <details>
+        <summary>¿Las zapatillas tienen garantía?</summary>
+        <p>Seis meses por defectos de fabricación, como despegado de suela o costuras abiertas. No cubre desgaste por uso normal. Nos envías una foto por WhatsApp y resolvemos en 48 horas.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<a class="wa" href="#ayuda" aria-label="Escríbenos por WhatsApp">💬 <span>Escríbenos</span></a>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="logo" href="#top" style="color:#fff;margin-bottom:12px"><span class="star">★</span>CHASKA</a>
+        <p style="margin:12px 0 0;max-width:36ch">Zapatillas deportivas y urbanas hechas para caminar Lima. Marca peruana, venta 100 % online.</p>
+      </div>
+      <div>
+        <h4>Comprar</h4>
+        <ul>
+          <li><a href="#catalogo">Todas las zapatillas</a></li>
+          <li><a href="#tallas">Guía de tallas</a></li>
+          <li><a href="#envios">Envíos y pagos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Atención al cliente</h4>
+        <ul>
+          <li><a href="#ayuda">Preguntas frecuentes</a></li>
+          <li><a href="#ayuda">WhatsApp: +51 900 000 000</a></li>
+          <li><a href="#ayuda">hola@chaska.pe</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 CHASKA. Proyecto académico — Universidad Peruana de Ciencias Aplicadas.</span>
+      <span>Fotografías referenciales de Pexels, de uso libre. Libro de reclamaciones · Términos y condiciones · Política de privacidad</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ CARRITO ============ -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Tu carrito">
+  <header>
+    <h2>Tu carrito</h2>
+    <button class="close" id="closeCart" aria-label="Cerrar carrito">×</button>
+  </header>
+  <div class="items" id="cartItems"></div>
+  <div class="summary">
+    <div class="row"><span>Subtotal</span><span id="subtotal">S/ 0</span></div>
+    <div class="row"><span id="shipLabel">Envío</span><span id="shipCost">—</span></div>
+    <div class="freebar"><i id="freeFill"></i></div>
+    <div class="row" style="font-size:.82rem;color:var(--muted)"><span id="freeMsg">Agrega S/ 250 para envío gratis en Lima.</span></div>
+    <div class="row total"><span>Total</span><span id="total">S/ 0</span></div>
+    <button class="checkout" id="goCheckout" disabled>Ir a pagar</button>
+  </div>
+</aside>
+
+<!-- ============ CHECKOUT ============ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+  <div class="sheet">
+    <div class="sh">
+      <h2 id="checkoutTitle" style="font-size:1.2rem">Finalizar compra</h2>
+      <button class="close" id="closeModal" aria-label="Cerrar">×</button>
+    </div>
+    <div class="sb" id="checkoutBody">
+      <div class="totbox">
+        <div class="row"><span>Productos</span><span id="ckSub">S/ 0</span></div>
+        <div class="row"><span>Envío</span><span id="ckShip">S/ 0</span></div>
+        <div class="row total"><span>Total a pagar</span><span id="ckTotal">S/ 0</span></div>
+      </div>
+
+      <fieldset>
+        <legend>¿A dónde lo enviamos?</legend>
+        <div class="field">
+          <label for="ckName">Nombre y apellido</label>
+          <input id="ckName" type="text" placeholder="Camila Rojas" required>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="ckPhone">Celular (WhatsApp)</label>
+            <input id="ckPhone" type="tel" placeholder="987 654 321" required>
+          </div>
+          <div class="field">
+            <label for="ckMail">Correo</label>
+            <input id="ckMail" type="email" placeholder="camila@correo.com" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="ckAddr">Dirección de entrega</label>
+          <input id="ckAddr" type="text" placeholder="Av. Primavera 123, dpto. 402" required>
+        </div>
+        <div class="field">
+          <label for="ckZone">Distrito o región</label>
+          <select id="ckZone" required>
+            <option value="">Elige una opción</option>
+            <option value="lima">Lima Metropolitana — llega en 24 a 48 h</option>
+            <option value="callao">Callao — llega en 24 a 48 h</option>
+            <option value="norte">Provincia norte — 3 a 5 días</option>
+            <option value="sur">Provincia sur — 3 a 5 días</option>
+            <option value="selva">Provincia selva — 3 a 5 días</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>¿Cómo quieres pagar?</legend>
+        <div class="payopts">
+          <label class="payopt"><input type="radio" name="pay" value="Yape o Plin" checked>
+            <span><span class="pt">Yape o Plin</span><span class="pd">Te mandamos el QR por WhatsApp apenas confirmes el pedido.</span></span></label>
+          <label class="payopt"><input type="radio" name="pay" value="Tarjeta">
+            <span><span class="pt">Tarjeta de débito o crédito</span><span class="pd">Pago seguro en pasarela. Visa, Mastercard, American Express.</span></span></label>
+          <label class="payopt"><input type="radio" name="pay" value="Contra entrega">
+            <span><span class="pt">Pago contra entrega</span><span class="pd">Solo en Lima Metropolitana. Pagas cuando recibes tus zapatillas.</span></span></label>
+        </div>
+      </fieldset>
+
+      <p class="err" id="ckErr" role="alert"></p>
+      <button class="checkout" id="confirm">Confirmar pedido</button>
+      <p style="font-size:.8rem;color:var(--muted);text-align:center;margin:12px 0 0">Recuerda: tu primer cambio de talla es gratis, hasta 15 días después de recibir tu pedido.</p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- datos del catálogo ---------- */
+  var SIZES=[35,36,37,38,39,40,41,42,43,44];
+  var PX="https://images.pexels.com/photos/";
+  var Q="?auto=compress&cs=tinysrgb&w=700";
+  var PRODUCTS=[
+    {id:"p1",name:"Chaska Runner",cat:["deportiva","mujer","hombre"],price:259,desc:"Para correr y para el día largo. Suela amortiguada y malla que respira.",tag:"Más vendida",img:PX+"1456733/pexels-photo-1456733.jpeg"+Q,stock:{35:4,36:9,37:14,38:16,39:12,40:10,41:8,42:6,43:0,44:2}},
+    {id:"p2",name:"Chaska Urbana",cat:["urbana","mujer","hombre"],price:219,desc:"Cuero sintético liso que combina con todo. Diseño pensado para la ciudad.",tag:"",img:PX+"14212621/pexels-photo-14212621.jpeg"+Q,stock:{35:6,36:11,37:15,38:18,39:14,40:9,41:7,42:5,43:3,44:1}},
+    {id:"p3",name:"Chaska Andina",cat:["urbana","mujer"],price:299,desc:"Detalle textil tejido a mano en Puno. Edición limitada de 120 pares.",tag:"Edición limitada",img:PX+"5488660/pexels-photo-5488660.jpeg"+Q,stock:{35:3,36:6,37:8,38:7,39:5,40:2,41:0,42:0,43:0,44:0}},
+    {id:"p4",name:"Chaska Ligera",cat:["deportiva","mujer"],price:189,desc:"La más liviana: 240 gramos. Ideal para gimnasio y caminatas largas.",tag:"Precio de entrada",img:PX+"21419626/pexels-photo-21419626.jpeg"+Q,stock:{35:8,36:12,37:16,38:14,39:10,40:6,41:3,42:1,43:0,44:0}},
+    {id:"p5",name:"Chaska Clásica",cat:["urbana","hombre"],price:239,desc:"Silueta retro de caña baja, en lona resistente. Un básico que no pasa.",tag:"",img:PX+"30313904/pexels-photo-30313904.jpeg"+Q,stock:{35:0,36:2,37:7,38:11,39:15,40:14,41:12,42:9,43:5,44:3}},
+    {id:"p6",name:"Chaska Trail",cat:["deportiva","hombre"],price:289,desc:"Suela con agarre para cerros y trochas. Resiste lluvia y lodo.",tag:"Nueva",img:PX+"4932844/pexels-photo-4932844.jpeg"+Q,stock:{35:0,36:0,37:4,38:8,39:11,40:13,41:11,42:8,43:6,44:4}}
+  ];
+
+  var SHIP={lima:{cost:15,eta:"24 a 48 horas",label:"Lima Metropolitana"},
+            callao:{cost:15,eta:"24 a 48 horas",label:"Callao"},
+            norte:{cost:25,eta:"3 a 5 días útiles",label:"Provincia norte"},
+            sur:{cost:28,eta:"3 a 5 días útiles",label:"Provincia sur"},
+            selva:{cost:35,eta:"4 a 5 días útiles",label:"Provincia selva"}};
+  var FREE_FROM=250;
+
+  var cart=[], selected={}, zone="";
+
+  /* ---------- utilidades ---------- */
+  function soles(n){return "S/ "+n.toLocaleString("es-PE",{minimumFractionDigits:0,maximumFractionDigits:0});}
+  function $(s){return document.querySelector(s);}
+  function shoe(p){
+    return '<img src="'+p.img+'" alt="Zapatillas '+p.name+'" loading="lazy">';
+  }
+  var toastTimer;
+  function toast(msg){
+    var t=$("#toast"); t.textContent=msg; t.classList.add("show");
+    clearTimeout(toastTimer); toastTimer=setTimeout(function(){t.classList.remove("show");},2400);
+  }
+
+  /* ---------- catálogo ---------- */
+  function render(filter){
+    var grid=$("#productGrid"); grid.innerHTML="";
+    PRODUCTS.filter(function(p){return filter==="todas"||p.cat.indexOf(filter)>-1;}).forEach(function(p){
+      var total=SIZES.reduce(function(a,s){return a+p.stock[s];},0);
+      var card=document.createElement("article"); card.className="card";
+      var sizeBtns=SIZES.map(function(s){
+        var has=p.stock[s]>0;
+        return '<button class="size" data-p="'+p.id+'" data-s="'+s+'" aria-pressed="'+(selected[p.id]==s)+'" '+
+               (has?'':'disabled aria-label="Talla '+s+' agotada"')+'>'+s+'</button>';
+      }).join("");
+      card.innerHTML=
+        '<div class="thumb">'+(p.tag?'<span class="tag">'+p.tag+'</span>':'')+shoe(p)+'</div>'+
+        '<div class="card-body">'+
+          '<h3>'+p.name+'</h3>'+
+          '<p class="desc">'+p.desc+'</p>'+
+          '<div style="display:flex;align-items:baseline;gap:12px">'+
+            '<span class="price">'+soles(p.price)+'</span>'+
+            '<span class="stock'+(total<25?' low':'')+'">'+(total<25?"Quedan "+total+" pares":total+" pares en stock")+'</span>'+
+          '</div>'+
+          '<div><div style="font-size:.82rem;color:var(--muted);margin-bottom:6px">Elige tu talla</div><div class="sizes">'+sizeBtns+'</div></div>'+
+          '<button class="sizelink" data-jump="1">¿No sabes tu talla? Calcúlala en 10 segundos</button>'+
+          '<p class="hint" id="hint-'+p.id+'"></p>'+
+          '<button class="add" data-add="'+p.id+'">Agregar al carrito</button>'+
+        '</div>';
+      grid.appendChild(card);
+    });
+  }
+
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    if(t.matches("[data-filter]")){
+      document.querySelectorAll("[data-filter]").forEach(function(c){c.setAttribute("aria-pressed","false");});
+      t.setAttribute("aria-pressed","true"); render(t.dataset.filter); return;
+    }
+    if(t.matches(".size")&&!t.disabled){
+      selected[t.dataset.p]=t.dataset.s;
+      t.closest(".sizes").querySelectorAll(".size").forEach(function(b){b.setAttribute("aria-pressed","false");});
+      t.setAttribute("aria-pressed","true");
+      $("#hint-"+t.dataset.p).textContent=""; return;
+    }
+    if(t.matches("[data-jump]")){ $("#tallas").scrollIntoView(); $("#cmRange").focus(); return; }
+    if(t.matches("[data-add]")){ addToCart(t.dataset.add); return; }
+  });
+
+  /* ---------- carrito ---------- */
+  function addToCart(id){
+    var p=PRODUCTS.find(function(x){return x.id===id;});
+    var size=selected[id];
+    if(!size){ $("#hint-"+id).textContent="Elige una talla para continuar."; toast("Primero elige tu talla."); return; }
+    var line=cart.find(function(l){return l.id===id&&l.size===size;});
+    var avail=p.stock[size];
+    if(line){
+      if(line.qty>=avail){ toast("Solo quedan "+avail+" pares en talla "+size+"."); return; }
+      line.qty++;
+    } else cart.push({id:id,size:size,qty:1,name:p.name,price:p.price,art:shoe(p)});
+    updateCart(); toast(p.name+", talla "+size+", agregada al carrito."); openDrawer();
+  }
+
+  function updateCart(){
+    var box=$("#cartItems"), sub=0, units=0;
+    if(!cart.length){
+      box.innerHTML='<div class="empty"><div style="font-size:3rem;line-height:1">👟</div><p>Tu carrito está vacío.<br>Elige un modelo y tu talla para empezar.</p></div>';
+    } else {
+      box.innerHTML=cart.map(function(l,i){
+        sub+=l.price*l.qty; units+=l.qty;
+        return '<div class="item"><div class="mini">'+l.art+'</div><div>'+
+          '<div class="t">'+l.name+'</div><div class="s">Talla '+l.size+'</div>'+
+          '<div class="qty"><button data-q="-" data-i="'+i+'" aria-label="Quitar una unidad">–</button>'+
+          '<span>'+l.qty+'</span><button data-q="+" data-i="'+i+'" aria-label="Agregar una unidad">+</button></div>'+
+          '<button class="rm" data-rm="'+i+'">Quitar</button></div>'+
+          '<div class="p">'+soles(l.price*l.qty)+'</div></div>';
+      }).join("");
+    }
+    var ship = cart.length ? (zone ? (zone==="lima"&&sub>=FREE_FROM ? 0 : SHIP[zone].cost) : null) : 0;
+    $("#subtotal").textContent=soles(sub);
+    $("#shipCost").textContent = !cart.length ? "—" : (ship===null ? "Se calcula al pagar" : (ship===0?"Gratis":soles(ship)));
+    var falta=Math.max(0,FREE_FROM-sub);
+    $("#freeFill").style.width=Math.min(100,(sub/FREE_FROM)*100)+"%";
+    $("#freeMsg").textContent = falta>0 ? "Agrega "+soles(falta)+" más y tu envío en Lima es gratis." : "¡Listo! Tu envío en Lima es gratis.";
+    $("#total").textContent=soles(sub+(ship||0));
+    $("#cartCount").textContent=units;
+    $("#goCheckout").disabled=!cart.length;
+    $("#ckSub").textContent=soles(sub);
+    $("#ckShip").textContent= zone ? (ship===0?"Gratis":soles(ship)) : "Elige tu distrito";
+    $("#ckTotal").textContent=soles(sub+(ship||0));
+  }
+
+  $("#cartItems").addEventListener("click",function(e){
+    var t=e.target;
+    if(t.dataset.rm!==undefined){ cart.splice(+t.dataset.rm,1); updateCart(); return; }
+    if(t.dataset.q){
+      var l=cart[+t.dataset.i], p=PRODUCTS.find(function(x){return x.id===l.id;});
+      if(t.dataset.q==="+"){
+        if(l.qty>=p.stock[l.size]){ toast("Solo quedan "+p.stock[l.size]+" pares en talla "+l.size+"."); return; }
+        l.qty++;
+      } else { l.qty--; if(l.qty<1) cart.splice(+t.dataset.i,1); }
+      updateCart();
+    }
+  });
+
+  function openDrawer(){ $("#drawer").classList.add("open"); $("#overlay").classList.add("open"); }
+  function closeDrawer(){ $("#drawer").classList.remove("open"); $("#overlay").classList.remove("open"); }
+  $("#openCart").addEventListener("click",openDrawer);
+  $("#closeCart").addEventListener("click",closeDrawer);
+  $("#overlay").addEventListener("click",closeDrawer);
+
+  /* ---------- guía de tallas ---------- */
+  function sizeFromCm(cm){ return Math.min(44,Math.max(35,Math.round((cm-14.5)/0.667))); }
+  function buildTable(){
+    var rows="";
+    SIZES.forEach(function(s){
+      var lo=(14.5+(s-0.5)*0.667).toFixed(1), hi=(14.5+(s+0.5)*0.667).toFixed(1);
+      rows+='<tr data-size="'+s+'"><td>'+lo+' – '+hi+' cm</td><td>Talla '+s+'</td><td>US '+(s-31)+'</td></tr>';
+    });
+    $("#sizeTable").innerHTML=rows;
+  }
+  function updateSize(){
+    var cm=parseFloat($("#cmRange").value), s=sizeFromCm(cm);
+    $("#cmValue").textContent=cm.toFixed(1);
+    $("#sizeNumber").textContent="Talla "+s;
+    var disponible=PRODUCTS.some(function(p){return p.stock[s]>0;});
+    $("#sizeNote").textContent = disponible
+      ? "Si usas medias gruesas o estás entre dos tallas, pide la mayor. Tenemos esta talla en stock."
+      : "Esta talla está agotada hoy. Escríbenos por WhatsApp y te avisamos cuando llegue.";
+    document.querySelectorAll("#sizeTable tr").forEach(function(tr){
+      tr.classList.toggle("hit", +tr.dataset.size===s);
+    });
+  }
+  $("#cmRange").addEventListener("input",updateSize);
+
+  /* ---------- calculadora de envío ---------- */
+  $("#destino").addEventListener("change",function(){
+    var v=this.value, out=$("#shipOut");
+    if(!v){ out.textContent="Elige tu destino y te decimos cuánto cuesta y cuándo llega."; return; }
+    var z=SHIP[v];
+    out.innerHTML="<strong>"+z.label+":</strong> "+soles(z.cost)+" · llega en "+z.eta+
+      (v==="lima"?"<br>Gratis si tu compra pasa de "+soles(FREE_FROM)+".":"");
+  });
+
+  /* ---------- checkout ---------- */
+  $("#goCheckout").addEventListener("click",function(){ closeDrawer(); $("#modal").classList.add("open"); $("#ckName").focus(); });
+  $("#closeModal").addEventListener("click",function(){ $("#modal").classList.remove("open"); });
+  $("#ckZone").addEventListener("change",function(){ zone=this.value; updateCart(); });
+
+  $("#confirm").addEventListener("click",function(){
+    var name=$("#ckName").value.trim(), phone=$("#ckPhone").value.trim(),
+        mail=$("#ckMail").value.trim(), addr=$("#ckAddr").value.trim(),
+        z=$("#ckZone").value, pay=document.querySelector("input[name=pay]:checked").value,
+        err=$("#ckErr");
+    if(!name||!phone||!mail||!addr||!z){ err.textContent="Completa todos los campos para confirmar tu pedido."; return; }
+    if(!/^[\d\s+()-]{9,}$/.test(phone)){ err.textContent="Revisa tu número de celular: debe tener 9 dígitos."; return; }
+    if(!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(mail)){ err.textContent="Revisa tu correo: parece que le falta algo."; return; }
+    if(pay==="Contra entrega"&&z!=="lima"){ err.textContent="El pago contra entrega solo está disponible en Lima Metropolitana. Elige Yape, Plin o tarjeta."; return; }
+    err.textContent="";
+
+    var sub=cart.reduce(function(a,l){return a+l.price*l.qty;},0);
+    var ship=(z==="lima"&&sub>=FREE_FROM)?0:SHIP[z].cost;
+    var ref="CHK-"+Math.floor(100000+Math.random()*900000);
+    $("#checkoutBody").innerHTML=
+      '<div class="done"><div class="tick" aria-hidden="true">✓</div>'+
+      '<h3>Pedido confirmado, '+name.split(" ")[0]+'</h3>'+
+      '<p>Te escribiremos al '+phone+' por WhatsApp para coordinar la entrega.</p>'+
+      '<div class="ref">'+ref+'</div>'+
+      '<p style="text-align:left"><strong>Entrega:</strong> '+SHIP[z].label+', en '+SHIP[z].eta+'.<br>'+
+      '<strong>Dirección:</strong> '+addr+'<br>'+
+      '<strong>Forma de pago:</strong> '+pay+'<br>'+
+      '<strong>Total:</strong> '+soles(sub+ship)+' (envío '+(ship===0?"gratis":soles(ship))+')</p>'+
+      '<p style="margin-top:16px">Tu primer cambio de talla es gratis hasta 15 días después de recibir el pedido. Guarda la caja.</p>'+
+      '<button class="checkout" id="again">Seguir comprando</button></div>';
+    $("#again").addEventListener("click",function(){ location.reload(); });
+  });
+
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Escape"){ closeDrawer(); $("#modal").classList.remove("open"); }
+  });
+
+  /* ---------- arranque ---------- */
+  render("todas"); buildTable(); updateSize(); updateCart();
+})();
+</script>
+</body>
+</html>
